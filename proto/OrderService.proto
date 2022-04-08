@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package OrderService;
+
+option go_package = "./proto;OrderService";
+
+service OrderService {
+  rpc GetOrdersForUser(OrdersForUserRequest) returns (OrdersForUserResponse) {}
+  rpc AddOrder(AddOrderRequest) returns (AddOrderResponse) {}
+  rpc GetOrderById(OrderByIdRequest) returns (OrderByIdResponse) {}
+  rpc UpdateOrderPaymentStatus(OrderPaymentStatusRequest)
+      returns (OrderPaymentStatusResponse) {}
+}
+
+message Order {
+  string id = 1;
+  string user_id = 2;
+  float order_total = 3;
+  int64 order_placed = 4;
+  bool order_paid = 5;
+}
+
+message OrdersForUserRequest {
+  reserved "id";
+  reserved 1;
+  string user_id = 2;
+}
+
+message OrdersForUserResponse { repeated Order order = 1; }
+
+message AddOrderRequest {
+  reserved "id";
+  reserved 1;
+  string user_id = 2;
+  float order_total = 3;
+  int64 order_placed = 4;
+  bool order_paid = 5;
+}
+
+message AddOrderResponse { Order order = 1; }
+
+message OrderByIdRequest { string order_id = 1; }
+
+message OrderByIdResponse { Order order = 1; }
+
+message OrderPaymentStatusRequest {
+  string order_id = 1;
+  bool paid = 2;
+}
+
+message OrderPaymentStatusResponse {}
